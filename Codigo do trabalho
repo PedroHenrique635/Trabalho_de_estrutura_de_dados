@@ -1,0 +1,71 @@
+GenreEntry* hash_table[HASH_TABLE_SIZE];Add commentMore actions
+
+// Função de hash
+
+unsigned int hash(const char* str) {
+    unsigned long hash = 5381;
+    int c;
+@@ -92,7 +92,7 @@ void add_book_to_genre(const char* genre, const char* title, const char* author)
+    printf("✅ Livro '%s' de %s adicionado ao gênero '%s'.\n", title, author, genre);
+}
+
+// Salvamento e carregamento
+
+void save_to_file(const char* filename) {
+    FILE* fp = fopen(filename, "w");
+    if (!fp) {
+@@ -132,15 +132,15 @@ void load_from_file(const char* filename) {
+    char line[256];
+    char current_genre[MAX_GENRE_LEN] = "";
+
+    // Verifica e ignora BOM UTF-8 se existir
+    
+    if (fgets(line, sizeof(line), fp)) {
+        if (strncmp(line, "\xEF\xBB\xBF", 3) != 0) {
+            fseek(fp, 0, SEEK_SET); // Volta ao início se não tiver BOM
+            fseek(fp, 0, SEEK_SET);
+        }
+    }
+
+    while (fgets(line, sizeof(line), fp)) {
+        line[strcspn(line, "\n")] = 0; // Remove newline
+        line[strcspn(line, "\n")] = 0; 
+
+        if (strncmp(line, "GENRE:", 6) == 0) {
+            strncpy(current_genre, line + 6, MAX_GENRE_LEN);
+@@ -169,7 +169,7 @@ void load_from_file(const char* filename) {
+    printf("📥 Dados carregados de '%s'.\n", filename);
+}
+
+// Outras funções
+
+void recommend_books(const char* genre) {
+    GenreEntry* genre_entry = find_genre_entry(genre);
+    if (!genre_entry || !genre_entry->books_head) {
+@@ -255,7 +255,7 @@ void list_all_books() {
+    }
+}
+
+// Memória
+
+void free_books(Book* head) {
+    while (head) {
+        Book* tmp = head;
+@@ -277,7 +277,7 @@ void free_hash_table() {
+    }
+}
+
+// Utilitários
+
+void read_line(char* buffer, int size) {
+    if (fgets(buffer, size, stdin)) {
+        buffer[strcspn(buffer, "\n")] = 0;
+@@ -289,7 +289,7 @@ void clear_stdin() {
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Menu
+
+void menu() {
+    int choice;
+    char genre[MAX_GENRE_LEN];
